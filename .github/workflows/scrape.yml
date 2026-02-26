@@ -2,23 +2,18 @@ name: Scrape news sites
 
 on:
   schedule:
-    - cron: '*/15 * * * *'  # every 15 minutes
-  workflow_dispatch:          # allows manual trigger from GitHub UI
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
-      - name: Install dependencies
-        run: pip install httpx psycopg2-binary
-
-      - name: Run scraper
-        run: python scraper.py
+      - run: pip install httpx psycopg2-binary
+      - run: python scraper.py
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
